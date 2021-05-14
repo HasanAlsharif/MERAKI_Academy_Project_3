@@ -52,13 +52,30 @@ const articles = [
  const getAllArticles = (req,res,next) => {
 
     res.status(200).json(articles);
-    
+    next()
   }
 
   app.get("/articles",  getAllArticles);
 
 
+
 // Ticket2
+
+const getArticlesByAuthor = (req,res,next) => {
+  
+  const author = articles.filter(element => element.author === req.query.author);
+  
+    if (author.length) {
+       res.status(200).json(author);
+
+    } else {
+   
+        res.status(404).json("Author not found");
+  }
+  next()
+}
+
+app.get("/articles/search_1",  getArticlesByAuthor);
 
 
 
