@@ -6,7 +6,7 @@ const morgan = require("morgan");
 const app = express();
 const port = 5000;
 
-/* ================================= */
+/* ================================ */
 
 // a middleware that enables us to read the received JSON data
 app.use(express.json());
