@@ -23,6 +23,42 @@ app.get('/', (req, res) => {
 
 /* ================================= */
 
+// Ticket1
+
+const articles = [
+  {
+  id: 1,
+  title: 'How I learn coding?',
+  description:
+  'Lorem, Quam, mollitia.',
+  author: 'Jouza',
+  },
+  {
+  id: 2,
+  title: 'Coding Best Practices',
+  description:
+  'Lorem, ipsum dolor sit, Quam, mollitia.',
+  author: 'Besslan',
+  },
+  {
+  id: 3,
+  title: 'Debugging',
+  description:
+  'Lorem, Quam, mollitia.',
+  author: 'Jouza',
+  },
+  ];
+
+ const getAllArticles = (req,res,next) => {
+
+    res.status(200).json(articles);
+    
+  }
+
+  app.get("/articles",  getAllArticles);
+
+
+// Ticket2
 
 
 
