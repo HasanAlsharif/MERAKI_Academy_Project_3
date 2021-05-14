@@ -80,6 +80,22 @@ app.get("/articles/search_1",  getArticlesByAuthor);
 
 
 
+//Ticket3
+const getAnArticleById = (req,res,next) => {
+  
+  const authorbyid = articles.filter(element => element.id == req.query.id);
+  
+    if (authorbyid.length) {
+       res.status(200).json(authorbyid);
+
+    } else {
+   
+        res.status(404).json("id not found");
+  }
+  next()
+}
+
+app.get("/articles/search_2",  getAnArticleById);
 
 
 
