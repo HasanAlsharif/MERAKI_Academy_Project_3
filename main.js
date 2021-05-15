@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
 
 /* ================================= */
 
-// Ticket1
+// ================  Ticket1 =====================
 
 const articles = [
   {
@@ -59,7 +59,7 @@ const articles = [
 
 
 
-// Ticket2
+// ================  Ticket2 =====================
 
 const getArticlesByAuthor = (req,res,next) => {
   
@@ -80,7 +80,7 @@ app.get("/articles/search_1",  getArticlesByAuthor);
 
 
 
-//Ticket3
+//================  Ticket3 =====================
 const getAnArticleById = (req,res,next) => {
   
   const authorbyid = articles.filter(element => element.id == req.query.id);
@@ -99,7 +99,53 @@ app.get("/articles/search_2",  getAnArticleById);
 
 
 
+// ================  Ticket4 =====================
+const { uuid } = require('uuidv4');
 
+const createNewArticle = (req,res,next) => {
+  
+ let newid = uuid()
+
+    for(let i = 0; i<articles.length; i++) {
+      if (newid == articles[i].id ){
+
+        newid = uuid();
+
+      }
+    }
+
+  const newArticle = { 
+    title : req.body.title,
+    description :  req.body.description,
+    author : req.body.author,
+    id: newid
+  }
+
+  articles.push(newArticle);
+
+  
+  res.status(201).json(newArticle);
+  next()
+
+ 
+ 
+}
+
+app.post("/articles",  createNewArticle);
+
+
+
+
+// ================  Ticket5 =====================
+
+const updateAnArticleById = (req, res, next) => {
+
+
+res.status(200).json()
+
+}
+
+app.put("/articles/:id" ,createNewArticle );
 
 
 
