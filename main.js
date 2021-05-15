@@ -99,7 +99,7 @@ app.get("/articles/search_2",  getAnArticleById);
 
 
 
-// ================  Ticket4 =====================
+// ================ Ticket4 =====================
 const { uuid } = require('uuidv4');
 
 const createNewArticle = (req,res,next) => {
@@ -132,20 +132,88 @@ const createNewArticle = (req,res,next) => {
 }
 
 app.post("/articles",  createNewArticle);
-
+// { "title": "server",  "description": "Lorem, Quam, mollitia.",   "author": "Ayman" }
 
 
 
 // ================  Ticket5 =====================
 
 const updateAnArticleById = (req, res, next) => {
+  
+  const indexid = articles.findIndex ( element => element.id == req.params.id )
+  
+    
+    if(req.body.title) {
+      articles[indexid].title = req.body.title
+    }
 
+    if(req.body.description) {
+      articles[indexid].description = req.body.description
+    }
 
-res.status(200).json()
+    if(req.body.author) {
+      articles[indexid].author = req.body.author
+    }
+    
+ 
+res.status(200).json(articles[indexid])
+next()
 
 }
 
-app.put("/articles/:id" ,createNewArticle );
+app.put("/articles/:id" ,updateAnArticleById);
+
+
+
+// ================  Ticket6 =====================
+
+const deleteAnArticleById = (req, res, next) => {
+  let i
+  const found = articles.find((element, index) => {
+    i = index
+    return element.id == req.params.id
+  })
+
+
+  if (found) {
+
+    articles.splice(i,1)
+    const deletemessage = { 
+      success : true ,
+      message : `Success Delete article with id => ${req.params.id}`
+    }
+  
+    res.status(200).json(deletemessage)
+    next()
+
+  } else {
+
+    throw "Error"
+
+  }
+
+}
+
+app.delete("/articles/:id" ,deleteAnArticleById);
+
+
+// ================  Ticket7 =====================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ================  Ticket8 =====================
+
 
 
 
