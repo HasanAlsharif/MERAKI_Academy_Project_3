@@ -25,7 +25,7 @@ app.get('/', (req, res) => {
 
 // ================  Ticket1 =====================
 
-const articles = [
+let articles = [
   {
   id: 1,
   title: 'How I learn coding?',
@@ -165,6 +165,7 @@ app.put("/articles/:id" ,updateAnArticleById);
 
 
 
+
 // ================  Ticket6 =====================
 
 const deleteAnArticleById = (req, res, next) => {
@@ -200,15 +201,35 @@ app.delete("/articles/:id" ,deleteAnArticleById);
 // ================  Ticket7 =====================
 
 
+const deleteArticlesByAuthor = (req, res, next) => {
 
+  const found = articles.find((element) => {
+   
+    return element.author === req.body.author
+  })
 
+    if (found) {
+    
+      articles = articles.filter(element => element.author !== req.body.author)
+      
+        
+      const deletemessageauth = { 
+        success : true ,
+        message : `Success Delete all articles of the author => ${req.body.author}`
+        }
 
+      res.status(200).json(deletemessageauth)
+      next()
+      
+          
+    }else {
 
+      throw "Error"
 
+    }
+}
 
-
-
-
+app.delete("/articles" ,deleteArticlesByAuthor);
 
 
 
