@@ -3,6 +3,11 @@ const fs = require("fs");
 const axios = require("axios");
 const morgan = require("morgan");
 
+// DB======================
+const {userModel,articleModel } = require("./schema");
+const db = require("./db_project_3_v01");
+
+
 const app = express();
 const port = 5000;
 
@@ -23,9 +28,11 @@ app.get('/', (req, res) => {
 
 /* ================================= */
 
-// ================  Ticket1 =====================
+// *********************************************************************************************
 
-let articles = [
+// ================ 1. Ticket1 =====================
+
+const articles = [
   {
   id: 1,
   title: 'How I learn coding?',
@@ -59,7 +66,7 @@ let articles = [
 
 
 
-// ================  Ticket2 =====================
+// ================  1. Ticket2 =====================
 
 const getArticlesByAuthor = (req,res,next) => {
   
@@ -80,7 +87,7 @@ app.get("/articles/search_1",  getArticlesByAuthor);
 
 
 
-//================  Ticket3 =====================
+//================ 1. Ticket3 =====================
 const getAnArticleById = (req,res,next) => {
   
   const authorbyid = articles.filter(element => element.id == req.query.id);
@@ -99,7 +106,7 @@ app.get("/articles/search_2",  getAnArticleById);
 
 
 
-// ================ Ticket4 =====================
+// ================ 1.Ticket4 =====================
 const { uuid } = require('uuidv4');
 
 const createNewArticle = (req,res,next) => {
@@ -136,7 +143,7 @@ app.post("/articles",  createNewArticle);
 
 
 
-// ================  Ticket5 =====================
+// ================  1.Ticket5 =====================
 
 const updateAnArticleById = (req, res, next) => {
   
@@ -166,7 +173,7 @@ app.put("/articles/:id" ,updateAnArticleById);
 
 
 
-// ================  Ticket6 =====================
+// ================ 1. Ticket6 =====================
 
 const deleteAnArticleById = (req, res, next) => {
   let i
@@ -198,7 +205,7 @@ const deleteAnArticleById = (req, res, next) => {
 app.delete("/articles/:id" ,deleteAnArticleById);
 
 
-// ================  Ticket7 =====================
+// ================  1.Ticket7 =====================
 
 
 const deleteArticlesByAuthor = (req, res, next) => {
@@ -210,9 +217,16 @@ const deleteArticlesByAuthor = (req, res, next) => {
 
     if (found) {
     
-      articles = articles.filter(element => element.author !== req.body.author)
+      // another way:
+      // articles = articles.filter(element => element.author !== req.body.author)
+      // then make articles (let) not const
       
-        
+
+      articles.forEach((element,i) =>{
+        if (element.author === req.body.author)
+          articles.splice(i,1)
+         })
+
       const deletemessageauth = { 
         success : true ,
         message : `Success Delete all articles of the author => ${req.body.author}`
@@ -232,8 +246,43 @@ const deleteArticlesByAuthor = (req, res, next) => {
 app.delete("/articles" ,deleteArticlesByAuthor);
 
 
+// ================  1. Ticket8 =====================
+// Done
 
-// ================  Ticket8 =====================
+// *********************************************************************************************
+
+
+// ================  2.A Ticket0 =====================
+
+// Done
+
+// ================  2.B Ticket1 =====================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
