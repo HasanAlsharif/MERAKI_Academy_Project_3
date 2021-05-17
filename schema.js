@@ -17,9 +17,9 @@ const articles = new mongoose.Schema({
 
 
 
-const usersexp = mongoose.model("user", users);
-const articlesexp = mongoose.model("article", articles);
-module.exports.usersexp = usersexp
-module.exports.articlesexp = articlesexp
+const usersModel = mongoose.model("user", users);
+const articlesModel = mongoose.model("article", articles);
+module.exports.usersModel = usersModel
+module.exports.articlesModel = articlesModel
 
 //"User" & "article " here is the module wich will be shown in MongoDB compass with added s

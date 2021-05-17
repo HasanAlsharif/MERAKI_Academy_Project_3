@@ -4,7 +4,7 @@ const axios = require("axios");
 const morgan = require("morgan");
 
 // DB======================
-const {userModel,articleModel } = require("./schema");
+const {usersModel, articlesModel} = require("./schema");
 const db = require("./db_project_3_v01");
 
 
@@ -259,7 +259,17 @@ app.delete("/articles" ,deleteArticlesByAuthor);
 // ================  2.B Ticket1 =====================
 
 
+const createNewAuthor = (req , res)=>{
 
+  const {firstName, lastName, age, country, email, password} = req.body
+  const newAuthor = new usersModel ({firstName, lastName, age, country, email, password})
+  newAuthor.save()
+  .then(result=> {res.status(201).json(result)})
+  .catch(err =>{res.json(err)})
+
+}
+
+app.post("/users" , createNewAuthor)
 
 
 
