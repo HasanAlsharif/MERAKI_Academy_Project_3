@@ -30,41 +30,6 @@ app.get('/', (req, res) => {
 
 // *********************************************************************************************
 
-// ================ 1. Ticket1 =====================
-
-const articles = [
-  {
-  id: 1,
-  title: 'How I learn coding?',
-  description:
-  'Lorem, Quam, mollitia.',
-  author: 'Jouza',
-  },
-  {
-  id: 2,
-  title: 'Coding Best Practices',
-  description:
-  'Lorem, ipsum dolor sit, Quam, mollitia.',
-  author: 'Besslan',
-  },
-  {
-  id: 3,
-  title: 'Debugging',
-  description:
-  'Lorem, Quam, mollitia.',
-  author: 'Jouza',
-  },
-  ];
-
- const getAllArticles = (req,res,next) => {
-
-    res.status(200).json(articles);
-    next()
-  }
-
-  app.get("/articles",  getAllArticles);
-
-
 
 // ================  1. Ticket2 =====================
 
@@ -85,9 +50,8 @@ const getArticlesByAuthor = (req,res,next) => {
 app.get("/articles/search_1",  getArticlesByAuthor);
 
 
-
-
 //================ 1. Ticket3 =====================
+
 const getAnArticleById = (req,res,next) => {
   
   const authorbyid = articles.filter(element => element.id == req.query.id);
@@ -103,10 +67,6 @@ const getAnArticleById = (req,res,next) => {
 }
 
 app.get("/articles/search_2",  getAnArticleById);
-
-
-
-
 
 
 
@@ -213,8 +173,6 @@ const deleteArticlesByAuthor = (req, res, next) => {
 app.delete("/articles" ,deleteArticlesByAuthor);
 
 
-// ================  1. Ticket8 =====================
-// Done
 
 // *********************************************************************************************
 
@@ -225,14 +183,6 @@ app.delete("/articles" ,deleteArticlesByAuthor);
 
 // ================  2.B Ticket1 =====================
 
-// {
-//   "firstName":"Mohammad",
-//   "lastName": "Jouza",
-//   "age": 27,
-//   "country":"Jordan",
-//   "email":"ceo@meraki-academy.org",
-//   "password": "12345678"
-// }
 
 const createNewAuthor = (req , res)=>{
 
@@ -250,17 +200,45 @@ app.post("/users" , createNewAuthor)
 
 // ================ 2.A Ticket1 =====================
 
+  // {
+  // "title" : "How I learn coding?",
+  // "description" :
+  // "Lorem, Quam, mollitia.",
+  // "AuthorFirstname" : "Mohammad"
+  // }
+
+  // {
+  //  "title": "Coding Best Practices",
+  // "description":
+  // "Lorem, ipsum dolor sit, Quam, mollitia.",
+  // "AuthorFirstname": "Besslan"
+  // }
+
+  // {
+  // "title": "Debugging",
+  // "description":
+  // "Lorem, Quam, mollitia.",
+  // "AuthorFirstname": "Mohammad"
+  // }
+  
+
+
 const createNewArticle = async (req,res) => {
   
-  const {title, description} = req.body
+  const {title, description , AuthorFirstname} = req.body
+  
   let id;
-  await usersModel.findOne({lastName:"Jouza"}).then(result=>{id = result._id}).catch(err=>{res.json(err)})
+  await usersModel.findOne({firstName: req.body.AuthorFirstname})
+  .then(result=>{id = result._id})
+  .catch(err=>{res.json(err)})
  
-  const newArticle = new articlesModel ({ 
+    const newArticle = new articlesModel ({ 
     title ,
     description ,
     author : id
    })
+
+   
 
    newArticle.save()
    .then(result=> {res.status(201).json(result)})
@@ -269,28 +247,19 @@ const createNewArticle = async (req,res) => {
 }
 
 app.post("/articles",  createNewArticle);
-// { "title": "server",  "description": "Lorem, Quam, mollitia." }
+//body: { "title": "How I learn coding?", "description": "Lorem, Quam, mollitia.", "AuthorFirstname": "Jouza" }
 
 
 
+// ================ 2.A Ticket2 =====================
 
+const getAllArticles = (req,res,next) => {
 
+  res.status(200).json(articles);
+  next()
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+app.get("/articles",  getAllArticles);
 
 
 
