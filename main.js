@@ -26,154 +26,6 @@ app.get('/', (req, res) => {
 });
 
 
-/* ================================= */
-
-// *********************************************************************************************
-
-
-// ================  1. Ticket2 =====================
-
-const getArticlesByAuthor = (req,res,next) => {
-  
-  const author = articles.filter(element => element.author === req.query.author);
-  
-    if (author.length) {
-       res.status(200).json(author);
-
-    } else {
-   
-        res.status(404).json("Author not found");
-  }
-  next()
-}
-
-app.get("/articles/search_1",  getArticlesByAuthor);
-
-
-//================ 1. Ticket3 =====================
-
-const getAnArticleById = (req,res,next) => {
-  
-  const authorbyid = articles.filter(element => element.id == req.query.id);
-  
-    if (authorbyid.length) {
-       res.status(200).json(authorbyid);
-
-    } else {
-   
-        res.status(404).json("id not found");
-  }
-  next()
-}
-
-app.get("/articles/search_2",  getAnArticleById);
-
-
-
-// ================  1.Ticket5 =====================
-
-const updateAnArticleById = (req, res, next) => {
-  
-  const indexid = articles.findIndex ( element => element.id == req.params.id )
-  
-    
-    if(req.body.title) {
-      articles[indexid].title = req.body.title
-    }
-
-    if(req.body.description) {
-      articles[indexid].description = req.body.description
-    }
-
-    if(req.body.author) {
-      articles[indexid].author = req.body.author
-    }
-    
- 
-res.status(200).json(articles[indexid])
-next()
-
-}
-
-app.put("/articles/:id" ,updateAnArticleById);
-
-
-
-
-// ================ 1. Ticket6 =====================
-
-const deleteAnArticleById = (req, res, next) => {
-  let i
-  const found = articles.find((element, index) => {
-    i = index
-    return element.id == req.params.id
-  })
-
-
-  if (found) {
-
-    articles.splice(i,1)
-    const deletemessage = { 
-      success : true ,
-      message : `Success Delete article with id => ${req.params.id}`
-    }
-  
-    res.status(200).json(deletemessage)
-    next()
-
-  } else {
-
-    throw "Error"
-
-  }
-
-}
-
-app.delete("/articles/:id" ,deleteAnArticleById);
-
-
-// ================  1.Ticket7 =====================
-
-
-const deleteArticlesByAuthor = (req, res, next) => {
-
-  const found = articles.find((element) => {
-   
-    return element.author === req.body.author
-  })
-
-    if (found) {
-    
-      // another way:
-      // articles = articles.filter(element => element.author !== req.body.author)
-      // then make articles (let) not const
-      
-
-      articles.forEach((element,i) =>{
-        if (element.author === req.body.author)
-          articles.splice(i,1)
-         })
-
-      const deletemessageauth = { 
-        success : true ,
-        message : `Success Delete all articles of the author => ${req.body.author}`
-        }
-
-      res.status(200).json(deletemessageauth)
-      next()
-      
-          
-    }else {
-
-      throw "Error"
-
-    }
-}
-
-app.delete("/articles" ,deleteArticlesByAuthor);
-
-
-
 // *********************************************************************************************
 
 
@@ -239,7 +91,6 @@ const createNewArticle = async (req,res) => {
    })
 
    
-
    newArticle.save()
    .then(result=> {res.status(201).json(result)})
    .catch(err =>{res.json(err)})
@@ -253,13 +104,24 @@ app.post("/articles",  createNewArticle);
 
 // ================ 2.A Ticket2 =====================
 
-const getAllArticles = (req,res,next) => {
+const getAllArticles = (req,res) => {
 
-  res.status(200).json(articles);
-  next()
+
+articlesModel.find({})
+.then(result => {res.status(200).json(result)})
+.catch(err => {res.status(404).json('error')})
+
 }
 
 app.get("/articles",  getAllArticles);
+
+
+// ================ 2.A Ticket3 =====================
+
+
+
+
+
 
 
 
