@@ -106,7 +106,40 @@ app.get("/articles/search_2",  getAnArticleById);
 
 
 
+// ================ 2.A Ticket1 =====================
+const { uuid } = require('uuidv4');
 
+const createNewArticle = (req,res,next) => {
+  
+ let newid = uuid()
+
+    for(let i = 0; i<articles.length; i++) {
+      if (newid == articles[i].id ){
+
+        newid = uuid();
+
+      }
+    }
+
+  const newArticle = { 
+    title : req.body.title,
+    description :  req.body.description,
+    author : req.body.author,
+    id: newid
+  }
+
+  articles.push(newArticle);
+
+  
+  res.status(201).json(newArticle);
+  next()
+
+ 
+ 
+}
+
+app.post("/articles",  createNewArticle);
+// { "title": "server",  "description": "Lorem, Quam, mollitia.",   "author": "Ayman" }
 
 
 
@@ -225,14 +258,6 @@ app.delete("/articles" ,deleteArticlesByAuthor);
 
 // ================  2.B Ticket1 =====================
 
-// {
-//   "firstName":"Mohammad",
-//   "lastName": "Jouza",
-//   "age": 27,
-//   "country":"Jordan",
-//   "email":"ceo@meraki-academy.org",
-//   "password": "12345678"
-// }
 
 const createNewAuthor = (req , res)=>{
 
@@ -245,31 +270,6 @@ const createNewAuthor = (req , res)=>{
 }
 
 app.post("/users" , createNewAuthor)
-
-
-
-// ================ 2.A Ticket1 =====================
-
-const createNewArticle = async (req,res) => {
-  
-  const {title, description} = req.body
-  let id;
-  await usersModel.findOne({lastName:"Jouza"}).then(result=>{id = result._id}).catch(err=>{res.json(err)})
- 
-  const newArticle = new articlesModel ({ 
-    title ,
-    description ,
-    author : id
-   })
-
-   newArticle.save()
-   .then(result=> {res.status(201).json(result)})
-   .catch(err =>{res.json(err)})
-
-}
-
-app.post("/articles",  createNewArticle);
-// { "title": "server",  "description": "Lorem, Quam, mollitia." }
 
 
 
