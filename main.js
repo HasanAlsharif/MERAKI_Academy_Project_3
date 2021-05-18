@@ -136,7 +136,18 @@ const getArticlesByAuthor = async (req,res) => {
   
 // ================ 2.A Ticket4 =====================
 
+const getAnArticleById = async (req,res) => {
 
+  
+   articlesModel.find({author: req.query.id })
+  .then(result => {res.status(200).json(result)})
+  .catch(err => {res.status(404).json('error')})
+  console.log(2)
+}
+  
+  app.get("/articles/search_2",  getAnArticleById);
+
+  // ================ 2.A Ticket5 =====================
 
 
 
