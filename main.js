@@ -209,7 +209,7 @@ app.put("/articles/:id", updateAnArticleById);
 
 const deleteAnArticleById = (req , res) =>{
 
-  articlesModel.findOneAndRemove({_id: req.params.id})
+  articlesModel.deleteOne({_id: req.params.id})
   .then((result) => {
     res.json(result);
   })
@@ -223,6 +223,22 @@ app.delete("/articles/:id", deleteAnArticleById)
 
 
 // ================ 2.A Ticket 7 =====================
+
+const deleteArticlesByAuthor = (req , res) =>{
+
+
+   articlesModel.deleteMany({author: req.body.author})
+  .then((result) => {
+    res.json(result);
+  })
+  .catch((err) => {
+    res.json(err);
+  });
+
+}
+
+app.delete("/articles", deleteArticlesByAuthor)
+
 
 
 
