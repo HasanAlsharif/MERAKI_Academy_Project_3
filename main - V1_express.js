@@ -205,7 +205,7 @@ const deleteAnArticleById = (req, res, next) => {
 app.delete("/articles/:id" ,deleteAnArticleById);
 
 
-// ================  1.Ticket7 =====================
+// ===================  1.Ticket7 =========================
 
 
 const deleteArticlesByAuthor = (req, res, next) => {

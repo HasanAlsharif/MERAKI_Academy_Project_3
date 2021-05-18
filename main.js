@@ -207,9 +207,22 @@ app.put("/articles/:id", updateAnArticleById);
 
 // ================ 2.A Ticket6 =====================
 
+const deleteAnArticleById = (req , res) =>{
+
+  articlesModel.findOneAndRemove({_id: req.params.id})
+  .then((result) => {
+    res.json(result);
+  })
+  .catch((err) => {
+    res.json(err);
+  });
+
+}
+
+app.delete("/articles/:id", deleteAnArticleById)
 
 
-
+// ================ 2.A Ticket 7 =====================
 
 
 
