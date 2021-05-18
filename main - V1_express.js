@@ -252,49 +252,6 @@ app.delete("/articles" ,deleteArticlesByAuthor);
 // *********************************************************************************************
 
 
-// ================  2.A Ticket0 =====================
-
-// Done
-
-// ================  2.B Ticket1 =====================
-
-
-const createNewAuthor = (req , res)=>{
-
-  const {firstName, lastName, age, country, email, password} = req.body
-  const newAuthor = new usersModel ({firstName, lastName, age, country, email, password})
-  newAuthor.save()
-  .then(result=> {res.status(201).json(result)})
-  .catch(err =>{res.json(err)})
-
-}
-
-app.post("/users" , createNewAuthor)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

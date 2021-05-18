@@ -169,7 +169,6 @@ app.get("/articles/search_2", getAnArticleById);
 // ================ 2.A Ticket5 =====================
 
 const updateAnArticleById = (req, res) => {
-  
   const { title, description, author } = req.body;
   //  instead of
   // title: req.body.title ,
@@ -178,19 +177,17 @@ const updateAnArticleById = (req, res) => {
 
   // make   const { title, description, author } = req.body; , then write the object directly
   // {
-  // title : title 
+  // title : title
   // description: description,
   // author: author,
   // } ==> but this also can be written like this {title,description,author}
-
-
 
   articlesModel
     .findOneAndUpdate(
       { _id: req.params.id },
       {
         title,
-        description
+        description,
       }
     )
     .then((result) => {
@@ -203,41 +200,43 @@ const updateAnArticleById = (req, res) => {
 
 app.put("/articles/:id", updateAnArticleById);
 
-
-
 // ================ 2.A Ticket6 =====================
 
-const deleteAnArticleById = (req , res) =>{
+const deleteAnArticleById = (req, res) => {
+  articlesModel
+    .deleteOne({ _id: req.params.id })
+    .then((result) => {
+      res.json(result);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
 
-  articlesModel.deleteOne({_id: req.params.id})
-  .then((result) => {
-    res.json(result);
-  })
-  .catch((err) => {
-    res.json(err);
-  });
-
-}
-
-app.delete("/articles/:id", deleteAnArticleById)
-
+app.delete("/articles/:id", deleteAnArticleById);
 
 // ================ 2.A Ticket 7 =====================
 
-const deleteArticlesByAuthor = (req , res) =>{
+const deleteArticlesByAuthor = (req, res) => {
+  articlesModel
+    .deleteMany({ author: req.body.author })
+    .then((result) => {
+      res.json(result);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
+
+app.delete("/articles", deleteArticlesByAuthor);
 
 
-   articlesModel.deleteMany({author: req.body.author})
-  .then((result) => {
-    res.json(result);
-  })
-  .catch((err) => {
-    res.json(err);
-  });
+// ================ 2.A Ticket 8 =====================
 
-}
+// done
 
-app.delete("/articles", deleteArticlesByAuthor)
+
+
 
 
 
