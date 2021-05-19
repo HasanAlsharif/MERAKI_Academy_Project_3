@@ -16,11 +16,6 @@ const articles = new mongoose.Schema({
   comments: [mongoose.Schema.ObjectId],
 });
 
-const articles = new mongoose.Schema({
-  title: String,
-  description: String,
-  author: { type: mongoose.Schema.ObjectId, ref: "users" },
-});
 
 const comments = new mongoose.Schema({
   comment: String,

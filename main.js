@@ -236,11 +236,30 @@ app.delete("/articles", deleteArticlesByAuthor);
 // done
 
 
+// ================ 2.B Ticket 2 =====================
 
 
+const login = (req,res) =>{
+
+  const logdata = { email : "ceo@meraki-academy.org" , password : "12345678" }
 
 
+  if(req.body.email === logdata.email && req.body.password === logdata.password) {
 
+    res.status(200).json("Valid login credentials")
+
+  }else{
+
+    res.status(401).json("Invalid login credentials")
+
+  }
+
+}
+
+app.post ("/login" , login)
+
+
+// ================ 2.B Ticket 3 =====================
 
 
 
