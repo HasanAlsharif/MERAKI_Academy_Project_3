@@ -4,7 +4,7 @@ const axios = require("axios");
 const morgan = require("morgan");
 
 // DB======================
-const { usersModel, articlesModel } = require("./schema");
+const { usersModel, articlesModel , commentsModel } = require("./schema");
 const db = require("./db_project_3_v01");
 
 const app = express();
@@ -260,6 +260,49 @@ app.post ("/login" , login)
 
 
 // ================ 2.B Ticket 3 =====================
+
+const createNewComment = (req,res) =>{
+
+    const {comment , commenter} = req.body
+
+    const newComment = new commentsModel ({
+      comment,
+      commenter
+    })
+
+    newComment.save()
+    .then((result) => {
+      res.status(201).json(result);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+
+}
+
+//983u9tpfj3hbrgkn3j49089
+app.post ("/articles/:id/comments" , createNewComment)
+
+// commenter is  user  => 60a2fd7f3f7b7c54bc7f9ec3
+// id is the artcle => 60a4dc43623fa341d07ef49d
+
+// {
+//   "comment" : "great article",
+//   "commenter" : "60a2fd7f3f7b7c54bc7f9ec3"
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

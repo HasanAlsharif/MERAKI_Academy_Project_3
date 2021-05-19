@@ -28,8 +28,10 @@ const comments = new mongoose.Schema({
 
 const usersModel = mongoose.model("user", users);
 const articlesModel = mongoose.model("article", articles);
+const commentsModel = mongoose.model("comment" , comments)
 module.exports.usersModel = usersModel;
 module.exports.articlesModel = articlesModel;
+module.exports.commentsModel = commentsModel;
 
 //"User" & "article " here is the module witch will be shown in MongoDB compass with added s
 // usersModel and articlesModel are used for creating the model in main.js
