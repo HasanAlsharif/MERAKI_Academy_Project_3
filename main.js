@@ -7,6 +7,11 @@ const morgan = require("morgan");
 const { usersModel, articlesModel , commentsModel } = require("./schema");
 const db = require("./db_project_3_v01");
 
+// .env ======================
+
+require("dotenv").config();
+
+/* ================================ */
 const app = express();
 const port = 5000;
 
@@ -292,7 +297,10 @@ app.post ("/articles/:id/comments" , createNewComment)
 // }
 
 
+// ================ 3.A Ticket 0 =====================
 
+const DB_URI = process.env.DB_URI
+const SECRET = process.env.SECRET
 
 
 

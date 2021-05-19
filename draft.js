@@ -1,4 +1,4 @@
-const deleteArticlesByAuthor = (req, res, next) => {
+  const deleteArticlesyAuthor = (req, res, next) => {
   let deleted = false;
   const articles = [{ author: "mhmd" , author: "ali" author: "ali"} ];
 
@@ -38,3 +38,6 @@ const deleteArticlesByAuthor = (req, res, next) => {
 // }
 
 app.delete("/articles", deleteArticlesByAuthor);
+
+
+
