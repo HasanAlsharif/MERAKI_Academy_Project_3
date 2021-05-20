@@ -229,35 +229,6 @@ app.delete("/articles", deleteArticlesByAuthor);
 
 // ================ 2.B Ticket 3 =====================
 
-const createNewComment = (req,res) =>{
-
-    const {comment , commenter} = req.body
-
-    const newComment = new commentsModel ({
-      comment,
-      commenter
-    })
-
-    newComment.save()
-    .then((result) => {
-      res.status(201).json(result);
-    })
-    .catch((err) => {
-      res.json(err);
-    });
-
-}
-
-//983u9tpfj3hbrgkn3j49089
-app.post ("/articles/:id/comments" , createNewComment)
-
-// commenter is  user  => 60a2fd7f3f7b7c54bc7f9ec3
-// id is the artcle => 60a4dc43623fa341d07ef49d
-
-// {
-//   "comment" : "great article",
-//   "commenter" : "60a2fd7f3f7b7c54bc7f9ec3"
-// }
 
 
 // ================ 3.A Ticket 0 =====================
@@ -340,10 +311,10 @@ const login = async (req,res) =>{
           expiresIn: "3600000",
         };
         const Token = jwt.sign(payload, SECRET, options);
-        res.status(200).json(Token)
+        res.status(200).json({ Token : Token})
       
   
-    }else{res.status(403).json("The password you’ve entered is incorrect")}
+    }else{res.status(403).json({message : "password incorrect" , status : 404 })}
   
     });
   })
@@ -361,6 +332,49 @@ app.post ("/login" , login)
 //   "password" : "12345678"
 // }
 
+// ================ 3.A Ticket 3 =====================
+
+const authentication = (req,res,next) => {
+ 
+  const token = req.headers.authorization.split(" ")[1]
+
+   jwt.verify(token, SECRET, (err, result) => {
+
+    if(err){ return res.json({ Message : "invalide" , status : 403 })}
+
+    next()
+    });
+};
+
+
+app.post ("/articles/:id/comments",authentication ,(req,res) => {
+
+  const {comment , commenter} = req.body
+
+  const newComment = new commentsModel ({
+    comment,
+    commenter
+  })
+
+  newComment.save()
+  .then((result) => {
+    res.status(201).json(result);
+  })
+  .catch((err) => {
+    res.json(err);
+  });
+
+})
+
+// commenter is  user  => 60a2fd7f3f7b7c54bc7f9ec3
+// id is the artcle => 60a4dc43623fa341d07ef49d
+
+// {
+//   "comment" : "great article",
+//   "commenter" : "60a2fd7f3f7b7c54bc7f9ec3"
+// }
+
+// ================ 3.B Ticket 1 =====================
 
 
 
