@@ -1,3 +1,6 @@
+const bcrypt = require("bcrypt")
+
+
 const mongoose = require("mongoose");
 
 const users = new mongoose.Schema({
@@ -23,6 +26,13 @@ const comments = new mongoose.Schema({
 });
 
 
+
+users.pre("save", async function(){
+  this.email = this.email.toLowerCase();
+  const salt = 10;
+  this.password =  await bcrypt.hash(this.password , salt)
+
+})
 
 
 

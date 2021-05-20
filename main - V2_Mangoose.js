@@ -8,9 +8,9 @@ const { usersModel, articlesModel , commentsModel } = require("./schema");
 const db = require("./db_project_3_v01");
 
 // .env ======================
-const bcrypt = require("bcrypt")
+
 require("dotenv").config();
-const jwt = require("jsonwebtoken");
+
 /* ================================ */
 const app = express();
 const port = 5000;
@@ -37,7 +37,27 @@ app.get("/", (req, res) => {
 
 // ================  2.B Ticket1 =====================
 
+const createNewAuthor = (req, res) => {
+  const { firstName, lastName, age, country, email, password } = req.body;
+  const newAuthor = new usersModel({
+    firstName,
+    lastName,
+    age,
+    country,
+    email,
+    password,
+  });
+  newAuthor
+    .save()
+    .then((result) => {
+      res.status(201).json(result);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
 
+app.post("/users", createNewAuthor);
 
 // ================ 2.A Ticket1 =====================
 
@@ -224,7 +244,24 @@ app.delete("/articles", deleteArticlesByAuthor);
 // ================ 2.B Ticket 2 =====================
 
 
+const login = (req,res) =>{
 
+  const logdata = { email : "ceo@meraki-academy.org" , password : "12345678" }
+
+
+  if(req.body.email === logdata.email && req.body.password === logdata.password) {
+
+    res.status(200).json("Valid login credentials")
+
+  }else{
+
+    res.status(401).json("Invalid login credentials")
+
+  }
+
+}
+
+app.post ("/login" , login)
 
 
 // ================ 2.B Ticket 3 =====================
@@ -267,99 +304,9 @@ const SECRET = process.env.SECRET
 
 // ================ 3.A Ticket 1 =====================
 
-const createNewAuthor =  (req, res) => {
-
-  const { firstName, lastName, age, country, email, password } = req.body;
-
-// first way check schema , also dont forget the require of bcrypt
-// second way here : 
-
-  // 1. make async in the function above and await bfore bcrypt because its always erequire some time
-  // const salt = 10;
-  // const hashedpassword =  await bcrypt.hash(password , salt)
-
-  const newAuthor = new usersModel({
-    firstName,
-    lastName,
-    age,
-    country,
-    email,
-    password
-  });
-
- 
-  console.log(newAuthor)
-
-    newAuthor.save()
-    .then((result) => {
-      res.status(201).json(result);
-    })
-    .catch((err) => {
-      res.json(err);
-    });
-
-   
-};
-
-app.post("/users", createNewAuthor);
 
 
 
-// {
-//   "firstName" : "Mohammad",
-//   "lastName" : "Jouza",
-//   "age" : 27,
-//   "country" : "Jordan",
-//   "email" : "CEO@MERAKI-Academy.org",
-//   "password" : "12345678"
-// }
-
-// ================ 3.A Ticket 2 =====================
-
-const login = async (req,res) =>{
-
-  const { email , password} = req.body
-
-  let found;
-  let match;
-  await usersModel.findOne({email : email.toLowerCase()})
-  .then( (result) => {
-    found = result;
-    bcrypt.compare(password, found.password, (err, result) => {
-      // result will be a boolean depending on whether the hashedPassword is made using the password provided
-    match = result
-    if (match) {
-    
-          const payload = {
-          
-          userId: found._id,
-          country: found.country
-         
-        };
-        const options = {
-          expiresIn: "3600000",
-        };
-        const Token = jwt.sign(payload, SECRET, options);
-        res.status(200).json(Token)
-      
-  
-    }else{res.status(403).json("The password you’ve entered is incorrect")}
-  
-    });
-  })
-  .catch((err) => {
-  res.status(404).json({message : "email not exist" , status : 404 });
-  });
-  
-}
-
-app.post ("/login" , login)
-
-
-// {
-//   "email" : "CEO@MERAKI-Academy.org",
-//   "password" : "12345678"
-// }
 
 
 

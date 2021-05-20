@@ -39,5 +39,36 @@
 
 app.delete("/articles", deleteArticlesByAuthor);
 
+// =====================================================================
+/* hashedpass
+
+bcrypt.hash(password , salt).then(err, hashedPassword =>{
 
 
+})
+ 
+  
+orrr
+
+ const fun = async (password) {
+
+    const salt =10
+    
+    const hashedPassword = await bcrypt.hash(password , salt)
+
+    bcrypt.compare(password, hashedPassword, (err, result) => {
+        // result will be a boolean depending on whether the hashedPassword is made using the password provided
+    console.log(result)
+    });
+  
+  }
+  
+
+      
+})
+
+
+
+
+
+*/
