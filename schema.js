@@ -11,6 +11,7 @@ const users = new mongoose.Schema({
   country: String,
   email: String,
   password: String,
+  role : { type: mongoose.Schema.ObjectId, ref: "roles" }
 });
 
 const articles = new mongoose.Schema({

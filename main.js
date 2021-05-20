@@ -174,8 +174,10 @@ app.post ("/articles/:id/comments",authentication ,(req,res) => {
 //   "commenter" : "60a2fd7f3f7b7c54bc7f9ec3"
 // }
 
-// ================ 3.B Ticket 1 =====================
+// ================ 3.B Ticket 1 ====================
+// done 
 
+// ================ 3.B Ticket 2 ====================
 
 
 
