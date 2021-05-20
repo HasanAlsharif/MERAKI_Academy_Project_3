@@ -297,12 +297,7 @@ app.post ("/articles/:id/comments" , createNewComment)
 // }
 
 
-// ================ 3.A Ticket 0 =====================
 
-const DB_URI = process.env.DB_URI
-const SECRET = process.env.SECRET
-
-// ================ 3.A Ticket 1 =====================
 
 
 

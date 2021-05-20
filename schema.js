@@ -1,7 +1,8 @@
 const bcrypt = require("bcrypt")
 
-
 const mongoose = require("mongoose");
+
+// ================= schemas =================== //
 
 const users = new mongoose.Schema({
   firstName: String,
@@ -26,6 +27,14 @@ const comments = new mongoose.Schema({
 });
 
 
+const roles = new mongoose.Schema({
+  role : String,
+  permissions: [String]
+});
+
+
+
+// ================= PRE / POST =================== //
 
 users.pre("save", async function(){
   this.email = this.email.toLowerCase();
@@ -34,14 +43,23 @@ users.pre("save", async function(){
 
 })
 
+// ================= Modelling =================== //
+
 
 
 const usersModel = mongoose.model("user", users);
-const articlesModel = mongoose.model("article", articles);
-const commentsModel = mongoose.model("comment" , comments)
 module.exports.usersModel = usersModel;
+
+const articlesModel = mongoose.model("article", articles);
 module.exports.articlesModel = articlesModel;
+
+const commentsModel = mongoose.model("comment" , comments)
 module.exports.commentsModel = commentsModel;
+
+const rolesModel = mongoose.model("role" , roles)
+module.exports.rolesModel = rolesModel;
+
+
 
 //"User" & "article " here is the module witch will be shown in MongoDB compass with added s
 // usersModel and articlesModel are used for creating the model in main.js
