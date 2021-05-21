@@ -86,13 +86,14 @@ app.post("/users", createNewAuthor);
 // }
 
 // ================ 3.A Ticket 2 =====================
-
+/*
 const login = async (req,res) =>{
 
   const { email , password} = req.body
 
   let found;
   let match;
+  //findOne() returns object , find() returns array
   await usersModel.findOne({email : email.toLowerCase()})
   .then( (result) => {
     found = result;
@@ -105,6 +106,7 @@ const login = async (req,res) =>{
           
           userId: found._id,
           country: found.country
+
          
         };
         const options = {
@@ -132,6 +134,7 @@ app.post ("/login" , login)
 //   "password" : "12345678"
 // }
 
+*/
 // ================ 3.A Ticket 3 =====================
 
 const authentication = (req,res,next) => {
@@ -177,7 +180,70 @@ app.post ("/articles/:id/comments",authentication ,(req,res) => {
 // ================ 3.B Ticket 1 ====================
 // done 
 
-// ================ 3.B Ticket 2 ====================
+// ================ 3.B Ticket 2 done ====================
+
+// ================ 3.B Ticket 3  ====================
+
+
+// app.post("/creatRole" , (req, res) =>{
+
+//   req.body
+
+
+
+// })
+
+
+
+const login = async (req,res) =>{
+
+  const { email , password} = req.body
+
+  let found;
+  let match;
+  //findOne() returns object , find() returns array
+  await (await usersModel.findOne({email : email.toLowerCase()})).populate("role").exec()
+  .then( (result) => {
+    found = result;
+    bcrypt.compare(password, found.password, (err, result) => {
+      // result will be a boolean depending on whether the hashedPassword is made using the password provided
+    match = result
+    if (match) {
+    
+          const payload = {
+          
+          userId: found._id,
+          country: found.country,
+          role : found.role
+         
+        };
+        const options = {
+          expiresIn: "3600000",
+        };
+        const Token = jwt.sign(payload, SECRET, options);
+        res.status(200).json({ Token : Token})
+      
+  
+    }else{res.status(403).json({message : "password incorrect" , status : 404 })}
+  
+    });
+  })
+  .catch((err) => {
+  res.status(404).json({message : "email not exist" , status : 404 });
+  });
+  
+}
+
+app.post ("/login" , login)
+
+
+// {
+//   "email" : "CEO@MERAKI-Academy.org",
+//   "password" : "12345678"
+// }
+
+
+
 
 
 
